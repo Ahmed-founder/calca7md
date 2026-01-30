@@ -46,8 +46,8 @@ const Index = () => {
               <Sparkles className="w-5 h-5 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold tracking-tight">Smart Pricing Manager</h1>
-              <p className="text-sm text-muted-foreground">Salla Store Pricing Calculator</p>
+              <h1 className="text-xl font-bold tracking-tight">مدير التسعير الذكي</h1>
+              <p className="text-sm text-muted-foreground">حاسبة تسعير لمتاجر سلة</p>
             </div>
           </div>
         </div>
@@ -59,13 +59,13 @@ const Index = () => {
           <TabsList className="grid w-full max-w-md grid-cols-2 bg-secondary/50">
             <TabsTrigger value="calculator" className="gap-2">
               <Calculator className="w-4 h-4" />
-              Calculator
+              الحاسبة
             </TabsTrigger>
             <TabsTrigger value="dashboard" className="gap-2">
               <LayoutDashboard className="w-4 h-4" />
-              Dashboard
+              لوحة التحكم
               {products.length > 0 && (
-                <span className="ml-1 px-1.5 py-0.5 text-xs rounded-full bg-primary/20 text-primary">
+                <span className="mr-1 px-1.5 py-0.5 text-xs rounded-full bg-primary/20 text-primary">
                   {products.length}
                 </span>
               )}
@@ -87,7 +87,7 @@ const Index = () => {
               <div className="space-y-4">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-2 h-2 rounded-full bg-primary animate-pulse-glow" />
-                  <h2 className="text-lg font-semibold">Pricing Strategies</h2>
+                  <h2 className="text-lg font-semibold">استراتيجيات التسعير</h2>
                 </div>
                 
                 <div className="grid grid-cols-1 gap-4">
@@ -105,7 +105,7 @@ const Index = () => {
 
                 {!watchedValues.name && (
                   <p className="text-sm text-muted-foreground text-center py-4">
-                    Enter a product name to enable saving
+                    أدخل اسم المنتج لتفعيل الحفظ
                   </p>
                 )}
               </div>

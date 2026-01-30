@@ -58,11 +58,24 @@ const getMarginStyles = (type: string) => {
   }
 };
 
+const getMarginLabel = (type: string) => {
+  switch (type) {
+    case 'aggressive':
+      return 'عدواني';
+    case 'recommended':
+      return 'موصى به';
+    case 'premium':
+      return 'مميز';
+    default:
+      return type;
+  }
+};
+
 export const ProductsTable = ({ products, onDelete, isLoading }: ProductsTableProps) => {
   const copyPrice = (price: number, productName: string) => {
-    navigator.clipboard.writeText(price.toString());
-    toast.success(`Price copied!`, {
-      description: `${formatCurrency(price)} for "${productName}" copied to clipboard`,
+    navigator.clipboard.writeText(Math.round(price).toString());
+    toast.success('تم نسخ السعر!', {
+      description: `${formatCurrency(price)} لـ "${productName}" تم نسخه`,
     });
   };
 
@@ -73,9 +86,9 @@ export const ProductsTable = ({ products, onDelete, isLoading }: ProductsTablePr
           <div className="w-16 h-16 rounded-full bg-secondary/50 flex items-center justify-center mb-4">
             <TrendingUp className="w-8 h-8 text-muted-foreground" />
           </div>
-          <h3 className="text-lg font-medium mb-2">No products saved yet</h3>
+          <h3 className="text-lg font-medium mb-2">لا توجد منتجات محفوظة</h3>
           <p className="text-muted-foreground text-sm text-center max-w-sm">
-            Use the calculator to generate pricing scenarios and save them to your dashboard.
+            استخدم الحاسبة لإنشاء سيناريوهات تسعير وحفظها في لوحة التحكم.
           </p>
         </CardContent>
       </Card>
@@ -85,27 +98,27 @@ export const ProductsTable = ({ products, onDelete, isLoading }: ProductsTablePr
   return (
     <Card className="glass-card overflow-hidden">
       <CardHeader className="pb-4">
-        <CardTitle className="text-lg">Saved Products</CardTitle>
-        <CardDescription>{products.length} pricing scenario{products.length !== 1 ? 's' : ''} saved</CardDescription>
+        <CardTitle className="text-lg">المنتجات المحفوظة</CardTitle>
+        <CardDescription>{products.length} سيناريو تسعير محفوظ</CardDescription>
       </CardHeader>
       <CardContent className="p-0">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow className="border-border/50 hover:bg-transparent">
-                <TableHead className="text-muted-foreground">Product</TableHead>
-                <TableHead className="text-muted-foreground">Strategy</TableHead>
-                <TableHead className="text-muted-foreground text-right">Total Cost</TableHead>
-                <TableHead className="text-muted-foreground text-right">Price</TableHead>
-                <TableHead className="text-muted-foreground text-right">Net Profit</TableHead>
-                <TableHead className="text-muted-foreground text-right">Actions</TableHead>
+                <TableHead className="text-muted-foreground text-right">المنتج</TableHead>
+                <TableHead className="text-muted-foreground text-right">الاستراتيجية</TableHead>
+                <TableHead className="text-muted-foreground text-right">إجمالي التكلفة</TableHead>
+                <TableHead className="text-muted-foreground text-right">السعر</TableHead>
+                <TableHead className="text-muted-foreground text-right">صافي الربح</TableHead>
+                <TableHead className="text-muted-foreground text-right">الإجراءات</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {products.map((product, index) => (
                 <motion.tr
                   key={product.id}
-                  initial={{ opacity: 0, x: -10 }}
+                  initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
                   className="border-border/30 hover:bg-secondary/30 transition-colors"
@@ -128,26 +141,26 @@ export const ProductsTable = ({ products, onDelete, isLoading }: ProductsTablePr
                   <TableCell>
                     <Badge 
                       variant="outline" 
-                      className={cn('gap-1 capitalize', getMarginStyles(product.margin_type))}
+                      className={cn('gap-1', getMarginStyles(product.margin_type))}
                     >
                       {getMarginIcon(product.margin_type)}
-                      {product.margin_type}
+                      {getMarginLabel(product.margin_type)}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-right font-mono text-sm">
+                  <TableCell className="font-mono text-sm" dir="ltr">
                     {formatCurrency(product.total_cost)}
                   </TableCell>
-                  <TableCell className="text-right font-mono text-sm font-medium">
+                  <TableCell className="font-mono text-sm font-medium" dir="ltr">
                     {formatCurrency(product.selling_price)}
                   </TableCell>
                   <TableCell className={cn(
-                    'text-right font-mono text-sm font-medium',
+                    'font-mono text-sm font-medium',
                     product.net_profit > 0 ? 'text-success' : 'text-destructive'
-                  )}>
+                  )} dir="ltr">
                     {formatCurrency(product.net_profit)}
                   </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex items-center justify-end gap-1">
+                  <TableCell>
+                    <div className="flex items-center gap-1">
                       <Button
                         variant="ghost"
                         size="icon"

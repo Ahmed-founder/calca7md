@@ -59,12 +59,12 @@ export const useProducts = () => {
     },
     onSuccess: (_, { input, result }) => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
-      toast.success('Product saved!', {
-        description: `"${input.name}" saved with ${result.marginLabel} strategy`,
+      toast.success('تم حفظ المنتج!', {
+        description: `"${input.name}" تم حفظه باستراتيجية ${result.marginLabel}`,
       });
     },
     onError: (error) => {
-      toast.error('Failed to save product', {
+      toast.error('فشل حفظ المنتج', {
         description: error.message,
       });
     },
@@ -79,12 +79,12 @@ export const useProducts = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
-      toast.success('Product deleted', {
-        description: 'The pricing scenario has been removed',
+      toast.success('تم حذف المنتج', {
+        description: 'تم إزالة سيناريو التسعير',
       });
     },
     onError: (error) => {
-      toast.error('Failed to delete product', {
+      toast.error('فشل حذف المنتج', {
         description: error.message,
       });
     },
