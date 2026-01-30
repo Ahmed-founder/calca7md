@@ -61,7 +61,7 @@ export const PricingCard = ({ result, productName, onSave, isLoading, index }: P
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
             <span className={cn('px-2 py-1 text-xs font-medium rounded-full', styles.badge)}>
-              {result.margin}% Margin
+              هامش {result.margin}%
             </span>
             <Icon className={cn('w-5 h-5', styles.iconColor)} />
           </div>
@@ -74,26 +74,26 @@ export const PricingCard = ({ result, productName, onSave, isLoading, index }: P
         <CardContent className="space-y-4">
           <div className="space-y-3">
             <div className="flex items-center justify-between py-2 border-b border-border/30">
-              <span className="text-muted-foreground text-sm">Selling Price</span>
-              <span className="text-2xl font-bold font-mono">{formatCurrency(result.sellingPrice)}</span>
+              <span className="text-muted-foreground text-sm">سعر البيع</span>
+              <span className="text-2xl font-bold font-mono" dir="ltr">{formatCurrency(result.sellingPrice)}</span>
             </div>
             
             <div className="flex items-center justify-between">
-              <span className="text-muted-foreground text-sm">Total Cost</span>
-              <span className="font-mono text-sm">{formatCurrency(result.totalMerchantCost)}</span>
+              <span className="text-muted-foreground text-sm">إجمالي التكلفة</span>
+              <span className="font-mono text-sm" dir="ltr">{formatCurrency(result.totalMerchantCost)}</span>
             </div>
             
             <div className="flex items-center justify-between">
-              <span className="text-muted-foreground text-sm">Gateway Fee</span>
-              <span className="font-mono text-sm text-destructive">-{formatCurrency(result.gatewayFee)}</span>
+              <span className="text-muted-foreground text-sm">رسوم البوابة</span>
+              <span className="font-mono text-sm text-destructive" dir="ltr">-{formatCurrency(result.gatewayFee)}</span>
             </div>
             
             <div className="flex items-center justify-between pt-2 border-t border-border/30">
-              <span className="text-muted-foreground text-sm font-medium">Net Profit</span>
+              <span className="text-muted-foreground text-sm font-medium">صافي الربح</span>
               <span className={cn(
                 'font-mono font-bold text-lg',
                 result.netProfit > 0 ? 'text-success' : 'text-destructive'
-              )}>
+              )} dir="ltr">
                 {formatCurrency(result.netProfit)}
               </span>
             </div>
@@ -108,7 +108,7 @@ export const PricingCard = ({ result, productName, onSave, isLoading, index }: P
             disabled={isLoading || !productName}
           >
             <Bookmark className="w-4 h-4" />
-            Save to Dashboard
+            حفظ في لوحة التحكم
           </Button>
         </CardFooter>
       </Card>

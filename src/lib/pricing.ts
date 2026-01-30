@@ -118,20 +118,20 @@ export const calculatePricing = (input: Partial<ProductInput>): PricingResult[] 
     { 
       margin: 0.20, 
       type: 'aggressive', 
-      label: 'Aggressive (Launch)',
-      description: 'Low margin for market entry & volume growth'
+      label: 'عدواني (إطلاق)',
+      description: 'هامش منخفض لدخول السوق وزيادة المبيعات'
     },
     { 
       margin: 0.35, 
       type: 'recommended', 
-      label: 'Recommended (Growth)',
-      description: 'Balanced margin for sustainable growth'
+      label: 'موصى به (نمو)',
+      description: 'هامش متوازن للنمو المستدام'
     },
     { 
       margin: 0.50, 
       type: 'premium', 
-      label: 'Premium (Brand)',
-      description: 'High margin for brand positioning'
+      label: 'مميز (علامة تجارية)',
+      description: 'هامش عالي لتميز العلامة التجارية'
     },
   ];
   
@@ -155,11 +155,11 @@ export const calculatePricing = (input: Partial<ProductInput>): PricingResult[] 
     const actualMargin = sellingPrice > 0 ? netProfit / sellingPrice : 0;
     
     return {
-      sellingPrice: Math.round(sellingPrice * 100) / 100,
-      netProfit: Math.round(netProfit * 100) / 100,
+      sellingPrice: Math.round(sellingPrice),
+      netProfit: Math.round(netProfit),
       margin: Math.round(actualMargin * 100),
-      gatewayFee: Math.round(gatewayFee * 100) / 100,
-      totalMerchantCost: Math.round(totalMerchantCost * 100) / 100,
+      gatewayFee: Math.round(gatewayFee),
+      totalMerchantCost: Math.round(totalMerchantCost),
       marginType: strategy.type,
       marginLabel: strategy.label,
       description: strategy.description,
@@ -167,11 +167,29 @@ export const calculatePricing = (input: Partial<ProductInput>): PricingResult[] 
   });
 };
 
-// Format currency (SAR)
+// Format currency (SAR) - whole numbers only
 export const formatCurrency = (value: number): string => {
-  return new Intl.NumberFormat('en-SA', {
+  const rounded = Math.round(value);
+  return new Intl.NumberFormat('ar-SA', {
     style: 'currency',
     currency: 'SAR',
-    minimumFractionDigits: 2,
-  }).format(value);
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(rounded);
+};
+
+// Parse Arabic/English number string to number
+export const parseNumberInput = (value: string): number => {
+  if (!value) return 0;
+  // Remove any non-numeric characters except dots and Arabic numerals
+  const arabicNumerals = '٠١٢٣٤٥٦٧٨٩';
+  let cleaned = value;
+  // Convert Arabic numerals to English
+  for (let i = 0; i < arabicNumerals.length; i++) {
+    cleaned = cleaned.replace(new RegExp(arabicNumerals[i], 'g'), i.toString());
+  }
+  // Remove non-numeric except dot
+  cleaned = cleaned.replace(/[^\d.]/g, '');
+  const num = parseFloat(cleaned);
+  return isNaN(num) ? 0 : num;
 };
