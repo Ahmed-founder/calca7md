@@ -33,6 +33,7 @@ export type Database = {
           packaging_cost: number | null
           selling_price: number
           total_cost: number
+          user_id: string | null
         }
         Insert: {
           base_cost?: number | null
@@ -52,6 +53,7 @@ export type Database = {
           packaging_cost?: number | null
           selling_price?: number
           total_cost?: number
+          user_id?: string | null
         }
         Update: {
           base_cost?: number | null
@@ -71,6 +73,7 @@ export type Database = {
           packaging_cost?: number | null
           selling_price?: number
           total_cost?: number
+          user_id?: string | null
         }
         Relationships: []
       }

@@ -2,15 +2,20 @@ import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { Calculator, LayoutDashboard, Sparkles } from 'lucide-react';
+import { Calculator, LayoutDashboard, Sparkles, LogOut, Loader2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
 import { CalculatorForm } from '@/components/CalculatorForm';
 import { PricingCard } from '@/components/PricingCard';
 import { ProductsTable } from '@/components/ProductsTable';
+import { AuthForm } from '@/components/AuthForm';
 import { productInputSchema, ProductInput, defaultProductInput, calculatePricing, PricingResult } from '@/lib/pricing';
 import { useProducts } from '@/hooks/useProducts';
+import { useAuth } from '@/hooks/useAuth';
 
 const Index = () => {
+  const { user, loading, signOut } = useAuth();
+  
   const form = useForm<ProductInput>({
     resolver: zodResolver(productInputSchema),
     defaultValues: defaultProductInput,
@@ -36,18 +41,43 @@ const Index = () => {
     deleteProduct.mutate(id);
   };
 
+  // Show loading spinner while checking auth
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  // Show auth form if not logged in
+  if (!user) {
+    return <AuthForm />;
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border/50 bg-card/50 backdrop-blur-xl sticky top-0 z-50">
         <div className="container py-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/50 flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-primary-foreground" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/50 flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold tracking-tight">مدير التسعير الذكي</h1>
+                <p className="text-sm text-muted-foreground">حاسبة تسعير لمتاجر سلة</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-bold tracking-tight">مدير التسعير الذكي</h1>
-              <p className="text-sm text-muted-foreground">حاسبة تسعير لمتاجر سلة</p>
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-muted-foreground hidden sm:block">
+                {user.email}
+              </span>
+              <Button variant="outline" size="sm" onClick={signOut} className="gap-2">
+                <LogOut className="w-4 h-4" />
+                <span className="hidden sm:inline">تسجيل الخروج</span>
+              </Button>
             </div>
           </div>
         </div>
