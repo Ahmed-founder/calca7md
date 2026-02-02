@@ -28,7 +28,7 @@ export interface PricingResult {
   margin: number;
   gatewayFee: number;
   totalMerchantCost: number;
-  marginType: 'aggressive' | 'recommended' | 'premium';
+  marginType: 'aggressive' | 'recommended' | 'premium' | 'legendary';
   marginLabel: string;
   description: string;
 }
@@ -114,7 +114,8 @@ export const calculatePricing = (input: Partial<ProductInput>): PricingResult[] 
   const totalMerchantCost = baseCost + importShipping + packagingCost + customsClearance + miscCosts;
   
   // Define target margins for each strategy
-  const strategies: { margin: number; type: 'aggressive' | 'recommended' | 'premium'; label: string; description: string }[] = [
+  // 75% margin = 300% markup (cost * 4 = selling price)
+  const strategies: { margin: number; type: 'aggressive' | 'recommended' | 'premium' | 'legendary'; label: string; description: string }[] = [
     { 
       margin: 0.20, 
       type: 'aggressive', 
@@ -132,6 +133,12 @@ export const calculatePricing = (input: Partial<ProductInput>): PricingResult[] 
       type: 'premium', 
       label: 'مميز (علامة تجارية)',
       description: 'هامش عالي لتميز العلامة التجارية'
+    },
+    { 
+      margin: 0.75, 
+      type: 'legendary', 
+      label: 'الأسطوري (300%)',
+      description: 'هامش ربح ٣٠٠٪ - المنتج يُباع بـ ٤ أضعاف التكلفة'
     },
   ];
   
