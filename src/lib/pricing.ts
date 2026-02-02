@@ -43,9 +43,9 @@ export const defaultProductInput: ProductInput = {
   packagingCost: 0,
   customsClearance: 0,
   miscCosts: 0,
-  customerDeliveryFee: 25,
-  gatewayFeePercent: 2.2,
-  gatewayFixedFee: 1.0,
+  customerDeliveryFee: 0,
+  gatewayFeePercent: 0,
+  gatewayFixedFee: 0,
 };
 
 // Helper to safely get number value, defaulting to 0
@@ -107,8 +107,8 @@ export const calculatePricing = (input: Partial<ProductInput>): PricingResult[] 
   const customsClearance = toNumber(input.customsClearance);
   const miscCosts = toNumber(input.miscCosts);
   const customerDeliveryFee = toNumber(input.customerDeliveryFee);
-  const gatewayFeePercent = toNumber(input.gatewayFeePercent) || 2.2;
-  const gatewayFixedFee = toNumber(input.gatewayFixedFee) || 1.0;
+  const gatewayFeePercent = toNumber(input.gatewayFeePercent);
+  const gatewayFixedFee = toNumber(input.gatewayFixedFee);
   
   // Calculate total merchant cost
   const totalMerchantCost = baseCost + importShipping + packagingCost + customsClearance + miscCosts;
