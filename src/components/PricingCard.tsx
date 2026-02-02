@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Bookmark, TrendingUp, Crown, Zap } from 'lucide-react';
+import { Bookmark, TrendingUp, Crown, Zap, Flame } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { PricingResult, formatCurrency } from '@/lib/pricing';
@@ -13,7 +13,7 @@ interface PricingCardProps {
   index: number;
 }
 
-const getCardStyles = (type: 'aggressive' | 'recommended' | 'premium') => {
+const getCardStyles = (type: 'aggressive' | 'recommended' | 'premium' | 'legendary') => {
   switch (type) {
     case 'aggressive':
       return {
@@ -38,6 +38,14 @@ const getCardStyles = (type: 'aggressive' | 'recommended' | 'premium') => {
         icon: Crown,
         iconColor: 'text-premium',
         badge: 'bg-premium/20 text-premium',
+      };
+    case 'legendary':
+      return {
+        gradient: 'from-orange-500/20 to-red-500/10',
+        border: 'border-orange-500/30 hover:border-orange-500/50',
+        icon: Flame,
+        iconColor: 'text-orange-500',
+        badge: 'bg-orange-500/20 text-orange-500',
       };
   }
 };
