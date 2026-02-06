@@ -18,7 +18,7 @@ export const CalculatorForm = ({ form }: CalculatorFormProps) => {
     // Allow empty or numeric input
     if (value === '' || /^[\d٠-٩.,]*$/.test(value)) {
       const numValue = parseNumberInput(value);
-      setValue(field, numValue as any, { shouldValidate: true });
+      setValue(field, numValue as any, { shouldValidate: true, shouldDirty: true, shouldTouch: true });
     }
   };
 
