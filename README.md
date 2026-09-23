@@ -1,73 +1,93 @@
-# Welcome to your Lovable project
+# Price Pal
 
-## Project info
+Act as a Senior Full Stack Developer. Build a "Smart Product Pricing Manager" for a Salla store owner.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+**Tech Stack:**
+- **Framework:** Next.js 15 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS + Shadcn/UI
+- **Database:** you choic or use lovable databse
+- **Icons:** Lucide-react
 
-## How can I edit this code?
+**Core Requirement:**
+The user is using "Lovable" or a similar AI builder. Ensure the code is ready to connect to a Supabase backend to SAVE and DELETE pricing scenarios.
 
-There are several ways of editing your application.
+### 1. Data Logic & Flexible Inputs
+All numerical inputs must be **Optional**. If a user leaves a field empty, treat it as `0` in calculations.
 
-**Use Lovable**
+**Inputs Section (Grouped logically):**
+1.  **Product Info:**
+    - Product Name (String)
+    - Product Link (URL - Optional)
+    - Image URL (String - Optional)
+2.  **Merchant Costs (Your Expenses):**
+    - Base Cost (Price from supplier)
+    - Import Shipping (Cost to ship to you - Optional/0 for Dropshipping)
+    - Packaging Cost (Boxes, wrapping - Optional)
+    - Customs & Clearance (Optional)
+    - Misc/Extra Costs (Optional)
+3.  **Sales Variables:**
+    - Customer Delivery Fee (What the customer pays, e.g., 25 SAR. Affects gateway fee calculation).
+    - Payment Gateway Fee % (Default to 2.2, but allow user to edit).
+    - Payment Fixed Fee (Default to 1.0, allow edit).
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### 2. The Calculation Logic (The "Magic")
+Create a helper function `calculatePricing` that runs in real-time.
+- `Total_Merchant_Cost` = Base + Import_Shipping + Packaging + Customs + Misc.
+- `Total_Transaction_Value` = Selling_Price + Customer_Delivery_Fee.
+- `Gateway_Fee` = (Total_Transaction_Value * (Gateway_Percent / 100)) + Fixed_Fee.
+- `Net_Profit` = Selling_Price - Total_Merchant_Cost - Gateway_Fee.
 
-Changes made via Lovable will be committed automatically to this repo.
+*Note: Handle cases where inputs are null/undefined by defaulting to 0.*
 
-**Use your preferred IDE**
+### 3. UI/UX Features
+**A. The Calculator Card:**
+- A clean, comprehensive form on the left/top.
+- **Dynamic Results:** On the right/bottom, show 3 Cards:
+    1.  **Aggressive (Launch):** Target ~20% Margin.
+    2.  **Recommended (Growth):** Target ~35% Margin.
+    3.  **Premium (Brand):** Target ~50% Margin.
+- Each card must have a "Save to Dashboard" button.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+**B. The Dashboard (Saved Products):**
+- Fetch data from Supabase table `products`.
+- Display saved items in a clean Data Table or Grid.
+- **Columns:** Product Name, Total Cost, Suggested Price, Net Profit.
+- **Actions:**
+    - "Copy Price" button (copies to clipboard).
+    - "Delete" button (Red Trash icon) -> Deletes from Supabase with a toast confirmation.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+**C. Database Schema (For Context):**
+Assume a Supabase table named `products` with columns:
+`id`, `created_at`, `name`, `link`, `total_cost`, `selling_price`, `net_profit`, `margin_type`.
 
-Follow these steps:
+### 4. Implementation Details
+- Use `zod` for input validation (allowing optional numbers).
+- Use `sonner` or `use-toast` for notifications (e.g., "Product Saved", "Product Deleted").
+- Ensure the UI is fully responsive (Mobile friendly).
+- Use a dark/modern theme suitable for a developer tool.
+
+Generate the full code, including the Supabase client setup, the main Page component, and the Logic/Types.
+
+This project was built with [Lovable](https://lovable.dev).
+
+**Live app**: https://calca7md.lovable.app
+
+## Build with Lovable
+
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/3a71385b-17ff-4aae-a52f-c1b80ee6a0e7).
+
+- **Ship faster**: describe what you want to build and Lovable handles the code.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+
+## Development
+
+Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
+git clone <this-repository-url>
+cd <repository-name>
 npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
